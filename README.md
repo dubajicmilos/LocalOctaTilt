@@ -10,3 +10,5 @@ All the main functions required for this code to run are present in functions fo
 **Just_plot_MD.m** loads Molecular Dynamics (MD) S(q,E) and reproduces data from Fig. 1. 
 
 **plot_A_cation_orientations.m** reproduces A-cation ortientations from Fig. 1. 
+
+<img width="698" height="676" alt="image" src="https://github.com/user-attachments/assets/99827a9b-ced9-49cd-a425-47b0e671a453" />
