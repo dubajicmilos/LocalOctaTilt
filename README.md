@@ -1,3 +1,5 @@
+Python version now available at: https://github.com/dubajicmilos/LocalOctaTilt-Python
+
 # LocalOctaTilt
 Matlab code used for phenomenological model in publication: Dynamic nanodomains dictate macroscopic properties in lead halide perovskites. It is written in Matlab 2018b so some functions might not be compatible with newer versions. Some of the calculations are performed on GPU and as a result some CUDA libraries might be incompatible with newer GPU versions-calculations might be slower. 
 
