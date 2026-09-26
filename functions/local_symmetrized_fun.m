@@ -53,7 +53,7 @@ K=-endK:dq:endK;K=K';
 L=-endL:dq:endL;
 
 
-M=sparse(length(K),length(H),length(L));
+M=zeros(length(K),length(H),length(L));
 Mg=gpuArray(M); %Move data to GPU
 
            
