@@ -127,8 +127,11 @@ end
 
 M=gather(Mg);
 
-Mr = imrotate3(M,180,[1 0 -1],'nearest','crop'); %Mr = imrotate3(M,90,[0 1 0],'nearest','crop');
-Mr1 = imrotate3(M,180,[0 1 -1],'nearest','crop'); %Mr1 = imrotate3(M,90,[1 0 0],'nearest','crop');
+% Mr and Mr1 are M rotated by 180 degrees about the [1 0 -1] and [0 1 -1] diagonals of
+% (H,K,L), i.e. the domains with c along H and along K. These rotations map the grid onto
+% itself, so they are exact index permutations of M, which is indexed M(K,H,L).
+Mr = flip(flip(flip(permute(M,[1 3 2]),1),2),3); %Mr = imrotate3(M,90,[0 1 0],'nearest','crop');
+Mr1 = flip(flip(flip(permute(M,[3 2 1]),1),2),3); %Mr1 = imrotate3(M,90,[1 0 0],'nearest','crop');
 
 
 S=1*M+1*Mr+Mr1; % We need to sum all three twin local structure components
