@@ -88,7 +88,10 @@ for i=1:size(hkl_org_g,1)
             
             M1g_inverted=inversion_3D_matrix(M1g);
             
-            Mg = Mg + M1g + M1g_inverted;
+            % For l = 0 both (h,k,0) and (-h,-k,0) are selected (and at the origin the
+            % reflection is its own inversion image), so positions with l = 0 are
+            % reached twice; divide so that they count once.
+            Mg = Mg + (M1g + M1g_inverted) / (1 + (hkl_org_g(i,3) == 0));
             
         end
         
@@ -109,8 +112,13 @@ for i=1:size(hkl_org_g,1)
             M1g_mirror_z = M1g(:, :, end:-1:1);  % Mirror across the XY-plane by flipping along the Z-axis            
             % Apply mirror symmetry to the rotated octants
             M1g_rotated_mirror_z = M1g_rotated(:, :, end:-1:1);  % Mirror the rotated octant across the XY-plane            
-            % Accumulate the results
-            Mg = Mg + M1g + M1g_rotated + M1g_mirror_z + M1g_rotated_mirror_z;
+            % Accumulate the results. On the boundary of the selected octants the images
+            % coincide: for l = 0 the mirror image is (h,k,l) itself, and for k = 0 the
+            % two-fold partner (-h,0,l) is in the list and selected as well (or is (h,k,l)
+            % itself when h = 0). Each position is thus reached (1+[k=0])*(1+[l=0]) times;
+            % divide so that it counts once.
+            n_hits = (1 + (hkl_org_g(i,2) == 0)) * (1 + (hkl_org_g(i,3) == 0));
+            Mg = Mg + (M1g + M1g_rotated + M1g_mirror_z + M1g_rotated_mirror_z) / n_hits;
         end
         
     end
