@@ -1,12 +1,13 @@
         function [X,Y,Z]=two_D_slice(plane,S,H,K,L,log_mode,plot_mode) % Finds the slice of 2D data with X and Y coordinates at coordinate value=value and integrates in the range=range
+            % S is indexed S(K,H,L), as returned by local_symmetrized_fun. Z(i,j) is the
+            % intensity at (X(j),Y(i)), the orientation that Colormap(X,Y,Z') expects.
             import uf.SCXRD
             tol=0.001;
             if strcmp(plane(1),'H') && strcmp(plane(2),'K')
                 
                 L_slice=str2double(plane(3:end));
                 indices = find(abs(L - L_slice) < tol);
-                Slice=(S(:,indices,:));
-                Slice1=reshape(Slice,length(K),length(H));
+                Slice1=S(:,:,indices).'; % rows H, columns K
                 
                 label_names=[{'K [rlu]'},{'H [rlu]'}];
                 
@@ -23,7 +24,7 @@
                 indices = find(abs(K - K_slice) < tol);
                 
                 Slice=(S(indices,:,:));
-                Slice1=reshape(Slice,length(L),length(H));
+                Slice1=reshape(Slice,length(H),length(L)); % rows H, columns L
                 label_names=[{'L [rlu]'},{'H [rlu]'}];
                 X=L;Y=H;Z=Slice1;
             end
@@ -34,7 +35,7 @@
                 H_slice=str2double(plane(1:end-2));
                 indices = find(abs(H - H_slice) < tol);
                 
-                Slice1=(S(:,:,indices));
+                Slice1=permute(S(:,indices,:),[3 1 2]); % rows L, columns K
                 
                 label_names=[{'K [rlu]'},{'L [rlu]'}];
                 
